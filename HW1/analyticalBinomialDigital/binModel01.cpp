@@ -23,9 +23,9 @@ int getInputData(double *S0, double *U, double *D, double *R)
     cout << "Enter R: ";
     cin >> *R;  // 0.1
 
-    // Using CRR no excess return, assume delta t = 0
-    *U = exp(sigma) - 1.0;
-    *D = exp(-sigma) - 1.0;
+    // Using CRR no excess return, assume delta t = 1/252 (daily)
+    *U = exp(sigma * sqrt(1.0/252.0)) - 1.0;
+    *D = exp(-sigma * sqrt(1.0/252.0)) - 1.0;
 
     // Make sure S0 > 0, (1 + U) > 0, (1 + D) > 0, (1 + R) > 0, U < D, otherwise interchange U <-> D
     if (*S0 <= 0 || *U <= -1.0 || *D <= -1.0 || *R <= -1.0 || *U <= *D)
