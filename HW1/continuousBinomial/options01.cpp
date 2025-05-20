@@ -6,11 +6,11 @@
 using namespace std;
 
 double CallPayoff(double z, double K) {
-    return static_cast<double>(z > K);
+    return max(z - K, 0.0);
 }
 
 double PutPayoff(double z, double K) {
-    return static_cast<double>(z < K);
+    return max(K - z, 0.0);
 }
 
 double PriceByCRR(double S0, double U, double D, double R, int N, double K, double(*Payoff)(double z, double K)) {
@@ -23,7 +23,7 @@ double PriceByCRR(double S0, double U, double D, double R, int N, double K, doub
 
     for (int n = N - 1; n >= 0; n--) {
         for (int i = 0; i <= n; i++) {
-            Price[i] = (q * Price[i + 1] + (1 - q) * Price[i]) / (1 + R);
+            Price[i] = (q * Price[i + 1] + (1 - q) * Price[i]) / (1 + R); // changed to continuous time R
         }
     }
 
